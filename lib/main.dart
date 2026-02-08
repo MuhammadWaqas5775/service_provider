@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'SignUp_page.dart';
 import 'Login_page.dart';
-import 'home_page.dart';
+import 'screens/services_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,10 +15,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'Service Provider',
+      theme: ThemeData(primarySwatch: Colors.blue),
       routes: {
         "/SignUp_page": (context) => const SignupPage(),
         "/Login_page": (context) => const LoginPage(),
-        "/home_page": (context) => const HomePage(),
+        "/services": (context) => const ServicesScreen(),
       },
       home: const LoginPage(),
       debugShowCheckedModeBanner: false,
