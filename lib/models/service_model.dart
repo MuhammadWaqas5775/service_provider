@@ -13,6 +13,15 @@ class ServiceModel {
     required this.icon,
   });
 
+  Map<String, dynamic> toMap() {
+    return {
+      'name': name,
+      'description': description,
+      'price': price,
+      'icon': icon,
+    };
+  }
+
   factory ServiceModel.fromMap(String id, Map<String, dynamic> map) {
     return ServiceModel(
       id: id,

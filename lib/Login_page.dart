@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -20,18 +21,29 @@ class _LoginPageState extends State<LoginPage> {
 
     setState(() => isLoading = true);
     try {
-      // Firebase Authentication automatically checks if the user exists and the password is correct
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
+      final cred = await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
       );
-      
-      if (mounted) {
+
+      if (mounted && cred.user != null) {
+        // Check user role from Firestore
+        final userDoc = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(cred.user!.uid)
+            .get();
+
+        final role = userDoc.data()?['role'] ?? 'customer';
+
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Logged in successfully')),
         );
-        // Move to home page on success
-        Navigator.pushReplacementNamed(context, '/home_page');
+
+        if (role == 'admin') {
+          Navigator.pushReplacementNamed(context, '/admin_panel');
+        } else {
+          Navigator.pushReplacementNamed(context, '/services');
+        }
       }
     } on FirebaseAuthException catch (e) {
       String errorMessage = 'Login failed';
@@ -44,7 +56,7 @@ class _LoginPageState extends State<LoginPage> {
       } else {
         errorMessage = e.message ?? 'An unknown error occurred.';
       }
-      
+
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
