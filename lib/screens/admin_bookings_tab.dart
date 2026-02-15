@@ -18,10 +18,33 @@ class AdminBookingsTab extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
         }
         if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.error_outline, size: 64, color: Colors.red),
+                const SizedBox(height: 16),
+                Text('Error: ${snapshot.error}', textAlign: TextAlign.center),
+              ],
+            ),
+          );
         }
         if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-          return const Center(child: Text('No bookings found.'));
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.event_busy, size: 80, color: Colors.grey[400]),
+                const SizedBox(height: 16),
+                const Text('No Bookings Yet',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey)),
+                const SizedBox(height: 8),
+                Text('Bookings will appear here when customers book services.',
+                    style: TextStyle(color: Colors.grey[500]),
+                    textAlign: TextAlign.center),
+              ],
+            ),
+          );
         }
 
         return ListView.builder(

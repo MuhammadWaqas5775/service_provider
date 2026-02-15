@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'SignUp_page.dart';
-import 'Login_page.dart';
+import 'signup_page.dart';
+import 'login_page.dart';
 import 'screens/services_screen.dart';
+import 'screens/my_bookings_page.dart';
 import 'screens/admin_panel_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  try {
+    await Firebase.initializeApp();
+  } catch (e) {
+    debugPrint('Firebase initialization failed: $e');
+  }
   runApp(const MyApp());
 }
 
@@ -19,9 +24,10 @@ class MyApp extends StatelessWidget {
       title: 'Service Provider',
       theme: ThemeData(primarySwatch: Colors.blue),
       routes: {
-        "/SignUp_page": (context) => const SignupPage(),
-        "/Login_page": (context) => const LoginPage(),
+        "/signup": (context) => const SignupPage(),
+        "/login": (context) => const LoginPage(),
         "/services": (context) => const ServicesScreen(),
+        "/my_bookings": (context) => const MyBookingsPage(),
         "/admin_panel": (context) => const AdminPanelScreen(),
       },
       home: const LoginPage(),

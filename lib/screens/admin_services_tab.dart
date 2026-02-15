@@ -15,10 +15,32 @@ class AdminServicesTab extends StatelessWidget {
             return const Center(child: CircularProgressIndicator());
           }
           if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Icons.error_outline, size: 64, color: Colors.red),
+                  const SizedBox(height: 16),
+                  Text('Error: ${snapshot.error}', textAlign: TextAlign.center),
+                ],
+              ),
+            );
           }
           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return const Center(child: Text('No services yet. Tap + to add one.'));
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.handyman, size: 80, color: Colors.grey[400]),
+                  const SizedBox(height: 16),
+                  const Text('No Services Yet',
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey)),
+                  const SizedBox(height: 8),
+                  Text('Tap the + button to add your first service.',
+                      style: TextStyle(color: Colors.grey[500])),
+                ],
+              ),
+            );
           }
 
           final services = snapshot.data!.docs.map((doc) {
@@ -105,7 +127,7 @@ class AdminServicesTab extends StatelessWidget {
                     ),
                     const SizedBox(height: 12),
                     DropdownButtonFormField<String>(
-                      value: selectedIcon,
+                      initialValue: selectedIcon,
                       decoration: const InputDecoration(labelText: 'Icon', border: OutlineInputBorder()),
                       items: icons.map((icon) {
                         return DropdownMenuItem(

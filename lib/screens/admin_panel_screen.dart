@@ -28,9 +28,17 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
         actions: [
           IconButton(
             onPressed: () async {
-              await FirebaseAuth.instance.signOut();
-              if (context.mounted) {
-                Navigator.pushReplacementNamed(context, '/Login_page');
+              try {
+                await FirebaseAuth.instance.signOut();
+                if (context.mounted) {
+                  Navigator.pushReplacementNamed(context, '/login');
+                }
+              } catch (e) {
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Logout failed: $e'), backgroundColor: Colors.red),
+                  );
+                }
               }
             },
             icon: const Icon(Icons.logout),
