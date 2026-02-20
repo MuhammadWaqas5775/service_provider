@@ -4,6 +4,9 @@ class ServiceModel {
   final String description;
   final double price;
   final String icon;
+  final String phone;
+  final String category;
+  final String duration;
 
   ServiceModel({
     required this.id,
@@ -11,6 +14,9 @@ class ServiceModel {
     required this.description,
     required this.price,
     required this.icon,
+    this.phone = '',
+    this.category = 'Other',
+    this.duration = '',
   });
 
   Map<String, dynamic> toMap() {
@@ -19,6 +25,9 @@ class ServiceModel {
       'description': description,
       'price': price,
       'icon': icon,
+      'phone': phone,
+      'category': category,
+      'duration': duration,
     };
   }
 
@@ -29,6 +38,9 @@ class ServiceModel {
       description: map['description'] ?? '',
       price: (map['price'] ?? 0.0).toDouble(),
       icon: map['icon'] ?? 'build',
+      phone: map['phone'] ?? '',
+      category: map['category'] ?? 'Other',
+      duration: map['duration'] ?? '',
     );
   }
 }
